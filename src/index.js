@@ -13,6 +13,7 @@ class Game extends React.Component {
         location: null,
       }],
       stepNumber: 0,
+      boldSelected: false,
       xIsNext: true,
     };
   }
@@ -25,18 +26,21 @@ class Game extends React.Component {
       return;
     }
     squares[i] = this.state.xIsNext ? 'X' : 'O';
+
     this.setState({
       history: history.concat([{
         squares: squares,
         location: i,
       }]),
       stepNumber: history.length,
+      boldSelected: false,
       xIsNext: !this.state.xIsNext,
     });
   }
 
   jumpTo(step) {
     this.setState({
+      boldSelected: true,
       stepNumber: step,
       xIsNext: (step % 2) === 0,
     });
@@ -65,11 +69,17 @@ class Game extends React.Component {
       }
 
       const desc = move ?
-        'Go to move #' + move + ' ' + printableLocation:
+        'Go to move #' + move + ' ' + printableLocation :
         'Go to game start';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button
+            className={ this.state.boldSelected
+              && this.state.stepNumber === move ? 'bold-font' : ''}
+            onClick={() => this.jumpTo(move)}
+          >
+            {desc}
+          </button>
         </li>
       );
     });

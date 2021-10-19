@@ -11,24 +11,29 @@ export class Board extends React.Component {
      />);
   }
 
+  renderRow(row) {
+    return (
+      <div className="board-row">
+        { row }
+      </div>
+    );
+  }
+
   render() {
+    const gridWidth = 3;
+    let squareGrid = [];
+
+    for(let i = 0; i < gridWidth; i++){
+      let row = [];
+      for(let j = 0; j < gridWidth; j++){
+        row.push(this.renderSquare(j + (i * gridWidth)));
+      }
+      squareGrid.push(this.renderRow(row));
+    }
+
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        { squareGrid }
       </div>
     );
   }
